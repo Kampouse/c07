@@ -6,7 +6,7 @@
 /*   By: jean-phil <jemartel@student.42quebec>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 09:40:43 by jean-phil         #+#    #+#             */
-/*   Updated: 2021/03/25 17:02:09 by jean-phil        ###   ########.fr       */
+/*   Updated: 2021/03/25 18:06:19 by jean-phil        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "stdio.h"
@@ -55,29 +55,40 @@ char	*ft_strcat(char *str1, char *str2)
 		*star = '\0';
 	return (str1);
 }
+char *ft_core(char *value,int size,char **str,char *separator)
+{
+	int counter;
+	counter = 0;	
+		while(counter < size)
+	{
+		ft_strcat(value,str[counter]);
+		if(counter < size - 1)	
+			ft_strcat(value,separator);
+		counter++;
+	}	
+
+		return value;
+}
 
 char *ft_strjoin(int size,char **str,char *separator)
 {
 	int		counter;
 	char	*output;
-	size_t	realsize;
 	size_t lenght_string;
 		
 	counter = 0;
-	realsize =ft_stlen(separator);	
-	lenght_string = ft_strtotalen(size,str);
-	lenght_string+= realsize * size - 1;
+	if(size == 0)
+		return((char *) malloc(sizeof(char)));
+	lenght_string = (ft_stlen(separator) * size) + ft_strtotalen(size,str);
 	output = (char *)malloc(lenght_string + 1);
-	while(counter < size)
+	if(output != NULL)
 	{
-		ft_strcat(output,str[counter]);
-		if(counter < size - 1)	
-			ft_strcat(output,separator);
-		counter++;
+		ft_core(output,size,str,separator);	
+		output[lenght_string + 1] = '\0';	
+		return output;
 	}
-	output[lenght_string + 1] = '\0';
-		
-	return output;
+	else
+		return 0;
 }
 
 int		main(void)
@@ -88,11 +99,11 @@ int		main(void)
 	char	*result;
 
 	strs = (char**)malloc(4 * sizeof(strs));
-	strs[0] = "lol";
-	strs[1] = "1234";
+	strs[0] = "lddddddddddol";
+	strs[1] = "1aaaaaaaaaaaaaaaaaaaa234";
 	strs[2] = "poiuic";
 	strs[3] = "1234";
-	separator = "";
+	separator = "help";
 	index = 0;
 	while (index < 4)
 	{
